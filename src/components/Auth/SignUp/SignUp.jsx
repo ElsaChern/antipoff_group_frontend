@@ -1,28 +1,59 @@
-// import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import FormComponent from "../../../helpers/Form/Form";
 import Input from "../../../helpers/Input/Input";
+import { useState } from "react";
+import validation from "../SignUp/validation";
 
 const SignUp = () => {
+  const [values, setValues] = useState({
+    name: "",
+    email: "",
+    password: "",
+    passwordConfirmation: "",
+  });
+  const [errors, setErrors] = useState({});
+  const [requestError, setRequestError] = useState("");
+
+  const handleChange = (e) => {
+    setValues({
+      ...values,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const newErrors = validation(values);
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length) {
+      return;
+    }
+
+    //   try {
+    //     const result = await register(values.email, values.password);
+    //     dispatch(setUser({ token: result.token }));
+    //     navigate("/users");
+    //   } catch (err) {
+    //     setRequestError(err);
+    //   }
+  };
+
   const nav = (
     <>
-      <span>Уже зарегистрированы?</span>
-      {/* <Link to={ROUTES.sign.in}>Войти</Link> */}
+      <span>
+        Уже зарегистрированы? Выполните <Link to="/signin">вход</Link>
+      </span>
     </>
   );
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    console.log("Changed");
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Submited");
-  };
-
   return (
     <FormComponent
-      requestError="Here might be an error"
+      requestError={requestError}
       formtitle="Регистрация"
       onSubmit={handleSubmit}
       btnText="Зарегистрироваться"
@@ -31,20 +62,24 @@ const SignUp = () => {
     >
       <Input
         label="Имя"
-        type="text"
+        type="name"
         name="name"
-        value=""
+        value={values.name}
         onChange={handleChange}
-        placeholder="Vova"
+        placeholder="Иван"
+        style={errors.name && { borderColor: "red" }}
+        error={errors.name}
       />
       <Input
         label="Электронная почта"
         type="email"
         name="email"
         autoComplete="on"
-        value=""
+        value={values.email}
         onChange={handleChange}
         placeholder="example@mail.ru"
+        style={errors.email && { borderColor: "red" }}
+        error={errors.email}
       />
       <Input
         label="Пароль"
@@ -52,8 +87,9 @@ const SignUp = () => {
         name="password"
         autoComplete="on"
         hasIconHiding
-        value="1234"
-        // error={errors?.password}
+        value={values.password}
+        style={errors.password && { borderColor: "red" }}
+        error={errors.password}
         placeholder="******"
         onChange={handleChange}
       />
@@ -63,10 +99,11 @@ const SignUp = () => {
         name="passwordConfirmation"
         autoComplete="on"
         hasIconHiding
-        value=""
-        // error={errors?.passwordConfirmation}
-        placeholder="******"
+        value={values.passwordConfirmation}
         onChange={handleChange}
+        placeholder="******"
+        style={errors.passwordConfirmation && { borderColor: "red" }}
+        error={errors.passwordConfirmation}
       />
     </FormComponent>
   );

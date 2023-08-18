@@ -23,9 +23,7 @@ const FormComponent = ({
       <Form onSubmit={onSubmit} noValidate>
         <FormTitle>{formtitle}</FormTitle>
         <FormControl>{children}</FormControl>
-        <FormButton type="submit" disabled={!btnIsValid}>
-          {btnText}
-        </FormButton>
+        <FormButton type="submit">{btnText}</FormButton>
       </Form>
       <LoginText>{nav}</LoginText>
     </FormWrapper>

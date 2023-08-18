@@ -22,17 +22,17 @@ const Input = ({
   error,
 }) => {
   const [passwordType, setPasswordType] = useState(type);
-  const [isEyeClicked, setIsEyeClicked] = useState(true);
+  const [passwordShown, setPasswordShown] = useState(false);
 
   useEffect(() => {
     if (!name.includes("password")) return;
 
-    if (isEyeClicked) setPasswordType("password");
-    if (!isEyeClicked) setPasswordType("text");
-  }, [isEyeClicked, name]);
+    if (passwordShown) setPasswordType("text");
+    if (!passwordShown) setPasswordType("password");
+  }, [passwordShown, name]);
 
   const handleEye = () => {
-    setIsEyeClicked(!isEyeClicked);
+    setPasswordShown(!passwordShown);
   };
 
   return (
@@ -45,11 +45,12 @@ const Input = ({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          style={style} /// ?
+          maxLength={30}
+          style={style}
         />
         {hasIconHiding && (
           <InputIcon onClick={handleEye}>
-            {<Icon src={isEyeClicked ? closeEye : openEye} alt="eye" />}
+            {<Icon src={passwordShown ? openEye : closeEye} alt="eye" />}
           </InputIcon>
         )}
         <ErrorField>{error}</ErrorField>
