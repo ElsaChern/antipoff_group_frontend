@@ -1,8 +1,9 @@
-import { HeadSection } from "../components/HeadSection/HeadSection";
-export const CardPage = () => {
+export const UserCard = () => {
   return (
     <>
       <p>Ссылка на карточку одного пользователя</p>
     </>
   );
 };
+
+export default UserCard;
