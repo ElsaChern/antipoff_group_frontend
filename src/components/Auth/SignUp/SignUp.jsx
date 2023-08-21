@@ -1,8 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FormComponent from "../../../helpers/Form/Form";
 import Input from "../../../helpers/Input/Input";
 import { useState } from "react";
 import validation from "../SignUp/validation";
+import { useDispatch } from "react-redux";
+import register from "../../../api/register";
+import { setUser } from "../../../store/slices/userSlice";
 
 const SignUp = () => {
   const [values, setValues] = useState({
@@ -21,8 +24,8 @@ const SignUp = () => {
     });
   };
 
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,13 +37,13 @@ const SignUp = () => {
       return;
     }
 
-    //   try {
-    //     const result = await register(values.email, values.password);
-    //     dispatch(setUser({ token: result.token }));
-    //     navigate("/users");
-    //   } catch (err) {
-    //     setRequestError(err);
-    //   }
+    try {
+      const result = await register(values.email, values.password);
+      dispatch(setUser({ token: result.token }));
+      navigate("/users");
+    } catch (err) {
+      setRequestError(` ${err.slice(5)}. Enter a specific e-mail`);
+    }
   };
 
   const nav = (

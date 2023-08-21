@@ -1,8 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FormComponent from "../../../helpers/Form/Form";
 import Input from "../../../helpers/Input/Input";
 import { useState } from "react";
 import validation from "./validation";
+import login from "../../../api/login";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../../store/slices/userSlice";
 
 const SignIn = () => {
   const [values, setValues] = useState({
@@ -19,8 +22,8 @@ const SignIn = () => {
     });
   };
 
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,13 +35,13 @@ const SignIn = () => {
       return;
     }
 
-    // try {
-    //   const result = await login(values.email, values.password);
-    //   dispatch(setUser({ token: result.token }));
-    //   navigate("/users");
-    // } catch (err) {
-    //   setRequestError(err);
-    // }
+    try {
+      const result = await login(values.email, values.password);
+      dispatch(setUser({ token: result.token }));
+      navigate("/users");
+    } catch (err) {
+      setRequestError(err);
+    }
   };
 
   const nav = (
