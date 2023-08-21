@@ -1,9 +1,7 @@
+import Users from "../components/Users";
+
 export const UsersCards = () => {
-  return (
-    <>
-      <p>Ссылка на карточки всех пользователей</p>
-    </>
-  );
+  return <Users />;
 };
 
 export default UsersCards;

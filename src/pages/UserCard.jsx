@@ -1,9 +1,7 @@
+import User from "../components/Users/User";
+
 export const UserCard = () => {
-  return (
-    <>
-      <p>Ссылка на карточку одного пользователя</p>
-    </>
-  );
+  return <User />;
 };
 
 export default UserCard;
