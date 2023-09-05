@@ -5,7 +5,7 @@ import { useState } from "react";
 import validation from "../SignUp/validation";
 import { useDispatch } from "react-redux";
 import register from "../../../api/register";
-import { setUser } from "../../../store/slices/userSlice";
+import { setLoggedIn } from "../../../store/slices/authSlice";
 
 const SignUp = () => {
   const [values, setValues] = useState({
@@ -39,7 +39,7 @@ const SignUp = () => {
 
     try {
       const result = await register(values.email, values.password);
-      dispatch(setUser({ token: result.token }));
+      dispatch(setLoggedIn({ token: result.token }));
       navigate("/users");
     } catch (err) {
       setRequestError(` ${err.slice(5)}. Enter a specific e-mail`);
