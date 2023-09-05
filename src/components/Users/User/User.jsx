@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import fetchSingleUser from "../../../api/fetchSingleUser";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { removeUser } from "../../../store/slices/userSlice";
+import { setLoggedOut } from "../../../store/slices/authSlice";
 import {
   Header,
   HeaderBtnBack,
@@ -29,7 +29,7 @@ const User = () => {
   const dispatch = useDispatch();
 
   const signOut = () => {
-    dispatch(removeUser());
+    dispatch(setLoggedOut());
     navigate("/signin");
   };
 

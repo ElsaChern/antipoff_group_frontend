@@ -5,7 +5,7 @@ import { useState } from "react";
 import validation from "./validation";
 import login from "../../../api/login";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../../store/slices/userSlice";
+import { setLoggedIn } from "../../../store/slices/authSlice";
 
 const SignIn = () => {
   const [values, setValues] = useState({
@@ -37,7 +37,7 @@ const SignIn = () => {
 
     try {
       const result = await login(values.email, values.password);
-      dispatch(setUser({ token: result.token }));
+      dispatch(setLoggedIn({ token: result.token }));
       navigate("/users");
     } catch (err) {
       setRequestError(err);

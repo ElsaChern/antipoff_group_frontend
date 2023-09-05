@@ -5,7 +5,8 @@ import down from "../../assets/box-arrow-right.svg";
 import { useEffect, useState } from "react";
 import fetchUsers from "../../api/fetchUsers";
 import { useDispatch } from "react-redux";
-import { removeUser } from "../../store/slices/userSlice";
+import { like, unlike } from "../../store/slices/likesSlice";
+import { useSelector } from "react-redux";
 import {
   DownIcon,
   Header,
@@ -24,7 +25,8 @@ import {
 } from "./styled";
 
 const Users = () => {
-  const [heartShown, setHeartShown] = useState(false);
+  const likesData = useSelector((state) => state.likes.data);
+
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(false);
 
@@ -39,18 +41,25 @@ const Users = () => {
   };
 
   useEffect(() => {
-    getUsers({});
+    getUsers();
   }, []);
 
-  const toggleHeart = () => {
-    setHeartShown(!heartShown);
+  const toggleHeart = (e, user_id) => {
+    console.log(likesData[user_id] === true);
+    if (likesData[user_id] === true) {
+      dispatch(unlike(user_id));
+    } else {
+      dispatch(like(user_id));
+    }
+    console.log(likesData);
+    // localStorage.setItem("likes", likesData);
   };
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const signOut = () => {
-    dispatch(removeUser());
+    // dispatch(signOutUser());
     navigate("/signin");
   };
 
@@ -82,8 +91,17 @@ const Users = () => {
                   <UserCardText>
                     {user.first_name} {user.last_name}
                   </UserCardText>
-                  <InputHeartIcon onClick={toggleHeart}>
-                    {<img src={heartShown ? heartFill : heart} alt="heart" />}
+                  <InputHeartIcon
+                    onClick={(event) => {
+                      toggleHeart(event, user.id);
+                    }}
+                  >
+                    {
+                      <img
+                        src={likesData[user.id] ? heartFill : heart}
+                        alt="heart"
+                      />
+                    }
                   </InputHeartIcon>
                 </UserCard>
               </>
