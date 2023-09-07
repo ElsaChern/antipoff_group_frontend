@@ -27,6 +27,9 @@ import {
 const Users = () => {
   const likesData = useSelector((state) => state.likes.data);
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(false);
 
@@ -44,18 +47,13 @@ const Users = () => {
     getUsers();
   }, []);
 
-  const toggleHeart = (e, user_id) => {
-    if (likesData[user_id] === true) {
-      dispatch(unlike(user_id));
+  const toggleLike = (e, userId) => {
+    if (likesData[userId] === true) {
+      dispatch(unlike(userId));
     } else {
-      dispatch(like(user_id));
+      dispatch(like(userId));
     }
-
-    // localStorage.setItem("likes", likesData);
   };
-
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const signOut = () => {
     navigate("/signin");
@@ -91,7 +89,7 @@ const Users = () => {
                   </UserCardText>
                   <InputHeartIcon
                     onClick={(event) => {
-                      toggleHeart(event, user.id);
+                      toggleLike(event, user.id);
                     }}
                   >
                     {
