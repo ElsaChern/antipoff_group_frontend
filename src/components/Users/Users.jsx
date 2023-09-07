@@ -45,13 +45,12 @@ const Users = () => {
   }, []);
 
   const toggleHeart = (e, user_id) => {
-    console.log(likesData[user_id] === true);
     if (likesData[user_id] === true) {
       dispatch(unlike(user_id));
     } else {
       dispatch(like(user_id));
     }
-    console.log(likesData);
+
     // localStorage.setItem("likes", likesData);
   };
 
@@ -59,7 +58,6 @@ const Users = () => {
   const dispatch = useDispatch();
 
   const signOut = () => {
-    // dispatch(signOutUser());
     navigate("/signin");
   };
 
