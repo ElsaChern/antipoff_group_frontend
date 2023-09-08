@@ -35,7 +35,6 @@ const RequestErrorField = styled.p`
 `;
 
 const FormButton = styled.button`
-  //   pointer-events: ${(props) => (props.disabled ? "none" : null)};
   width: 100%;
   background: ${(props) =>
     props.disabled ? "rgba(238, 238, 238, 1)" : "rgba(81, 38, 137, 1)"};
