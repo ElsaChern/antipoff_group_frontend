@@ -86,7 +86,7 @@ const Users = () => {
             return (
               <UserCard key={user.id}>
                 <a href={`/users/${user.id}`}>
-                  <UserCardPhoto src={user.avatar} />
+                  <UserCardPhoto src={user.avatar} key={user.id} />
                 </a>
                 <UserCardText>
                   {user.first_name} {user.last_name}
@@ -109,10 +109,12 @@ const Users = () => {
         )}
       </UserWrapper>
       <ShowMoreBtnWrapper>
-        <ShowMoreBtn onClick={handleClickShowMore}>
-          Показать еще
-          <DownIcon> {<img src={down} alt="arrow" />}</DownIcon>
-        </ShowMoreBtn>
+        {users.length < 12 && (
+          <ShowMoreBtn onClick={handleClickShowMore}>
+            Показать еще
+            <DownIcon> {<img src={down} alt="arrow" />}</DownIcon>
+          </ShowMoreBtn>
+        )}
       </ShowMoreBtnWrapper>
     </>
   );
