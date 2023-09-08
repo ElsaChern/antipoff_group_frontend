@@ -1,13 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 import FormComponent from "../../../helpers/Form/Form";
 import Input from "../../../helpers/Input/Input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import validation from "../SignUp/validation";
-import { useDispatch } from "react-redux";
-import { setLoggedIn } from "../../../store/slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setToken } from "../../../store/slices/authSlice";
 import authRequest from "../../../api/authRequest";
 
 const SignUp = () => {
+  const tokenData = useSelector((state) => state.auth.token);
+
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -17,15 +19,15 @@ const SignUp = () => {
   const [errors, setErrors] = useState({});
   const [requestError, setRequestError] = useState("");
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setValues({
       ...values,
       [e.target.name]: e.target.value,
     });
   };
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,12 +45,21 @@ const SignUp = () => {
         values.email,
         values.password,
       );
-      dispatch(setLoggedIn({ token: result.token }));
+      dispatch(setToken(result.token));
       navigate("/users");
     } catch (err) {
-      setRequestError(` ${err.slice(5)}. Enter a specific e-mail`);
+      setRequestError(
+        err.message || ` ${err.slice(5)}. Enter a specific e-mail`,
+      );
     }
   };
+
+  useEffect(() => {
+    if (tokenData) {
+      navigate("/users");
+    }
+    // eslint-disable-next-line
+  }, [tokenData]);
 
   const nav = (
     <>
