@@ -8,6 +8,7 @@ import { like, unlike } from "../../store/slices/likesSlice";
 import { useSelector } from "react-redux";
 import fetchUsers from "../../api/fetchUsers";
 import { usersPageText } from "../../helpers/Users/usersPageConstants";
+import { deleteToken } from "../../store/slices/authSlice";
 import {
   DownIcon,
   Header,
@@ -27,6 +28,7 @@ import {
 
 const Users = () => {
   const likesData = useSelector((state) => state.likes.data);
+  const tokenData = useSelector((state) => state.auth.token);
 
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -36,17 +38,21 @@ const Users = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const getUsers = async () => {
-      try {
-        const usersResult = await fetchUsers(currentPage);
-        setUsers([...users, ...usersResult]);
-      } catch (e) {
-        setError(true);
-        setUsers([]);
-      }
-    };
-    getUsers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (tokenData) {
+      const getUsers = async () => {
+        try {
+          const usersResult = await fetchUsers(currentPage);
+          setUsers([...users, ...usersResult]);
+        } catch (e) {
+          setError(true);
+          setUsers([]);
+        }
+      };
+      getUsers();
+    } else {
+      navigate("/signin");
+    }
+    // eslint-disable-next-line
   }, [currentPage]);
 
   const handleClickShowMore = () => {
@@ -62,6 +68,7 @@ const Users = () => {
   };
 
   const signOut = () => {
+    dispatch(deleteToken());
     navigate("/signin");
   };
 

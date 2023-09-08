@@ -3,8 +3,8 @@ import email from "../../../assets/envelope.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import fetchSingleUser from "../../../api/fetchSingleUser";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { setLoggedOut } from "../../../store/slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteToken } from "../../../store/slices/authSlice";
 import { userPageText } from "../../../helpers/User/userPageConstants";
 import {
   Header,
@@ -25,26 +25,34 @@ import {
 } from "./styled";
 
 const User = () => {
+  const tokenData = useSelector((state) => state.auth.token);
+
   const { id } = useParams();
   const [user, setUser] = useState({});
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const signOut = () => {
-    dispatch(setLoggedOut());
+    dispatch(deleteToken());
     navigate("/signin");
   };
 
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        const userResult = await fetchSingleUser(id);
-        setUser(userResult);
-      } catch {
-        setUser({});
-      }
-    };
-    getUser({});
+    if (tokenData) {
+      const getUser = async () => {
+        try {
+          const userResult = await fetchSingleUser(id);
+          setUser(userResult);
+        } catch {
+          setUser({});
+        }
+      };
+      getUser({});
+    } else {
+      navigate("/signin");
+    }
+    // eslint-disable-next-line
   }, [id]);
 
   return (
