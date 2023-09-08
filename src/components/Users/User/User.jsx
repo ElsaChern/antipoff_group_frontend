@@ -5,6 +5,7 @@ import fetchSingleUser from "../../../api/fetchSingleUser";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setLoggedOut } from "../../../store/slices/authSlice";
+import { userPageText } from "../../../helpers/User/userPageConstants";
 import {
   Header,
   HeaderBtnBack,
@@ -25,6 +26,7 @@ import {
 
 const User = () => {
   const { id } = useParams();
+  const [user, setUser] = useState({});
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -32,8 +34,6 @@ const User = () => {
     dispatch(setLoggedOut());
     navigate("/signin");
   };
-
-  const [user, setUser] = useState({});
 
   useEffect(() => {
     const getUser = async () => {
@@ -57,7 +57,7 @@ const User = () => {
             <HeaderTitle>
               {user.first_name} {user.last_name}
             </HeaderTitle>
-            <HeaderText>Партнер</HeaderText>
+            <HeaderText>{userPageText.header}</HeaderText>
           </HeaderTextWrapper>
           <UserPhoto src={user.avatar} />
         </UserCarInfo>
@@ -70,7 +70,7 @@ const User = () => {
             <UserContactIcon>
               <img src={phone} alt="phone" />
             </UserContactIcon>
-            8 (800) 555-35-35
+            {userPageText.phone}
           </UserCardContact>
           <UserCardContact>
             <UserContactIcon>
@@ -79,15 +79,7 @@ const User = () => {
             {user.email}
           </UserCardContact>
         </UserCardContactWrapper>
-        <UserCardText>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute iruredolor in.
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </UserCardText>
+        <UserCardText>{userPageText.description}</UserCardText>
       </UserCardWrapper>
     </>
   );

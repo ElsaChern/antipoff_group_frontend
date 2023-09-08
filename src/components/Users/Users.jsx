@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { like, unlike } from "../../store/slices/likesSlice";
 import { useSelector } from "react-redux";
 import fetchUsers from "../../api/fetchUsers";
+import { usersPageText } from "../../helpers/Users/usersPageConstants";
 import {
   DownIcon,
   Header,
@@ -70,12 +71,8 @@ const Users = () => {
         <HeaderBtn onClick={signOut}>Выход</HeaderBtn>
         <HeaderIcon onClick={signOut}></HeaderIcon>
         <HeaderTextWrapper>
-          <HeaderTitle>Наша команда</HeaderTitle>
-          <HeaderText>
-            Это опытные специалисты, хорошо разбирающиеся во всех задачах,
-            которые ложатся на их плечи, и умеющие находить выход из любых, даже
-            самых сложных ситуаций.{" "}
-          </HeaderText>
+          <HeaderTitle>{usersPageText.title}</HeaderTitle>
+          <HeaderText>{usersPageText.header}</HeaderText>
         </HeaderTextWrapper>
       </Header>
       <UserWrapper>

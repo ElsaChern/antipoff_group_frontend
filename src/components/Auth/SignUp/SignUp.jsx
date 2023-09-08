@@ -4,8 +4,8 @@ import Input from "../../../helpers/Input/Input";
 import { useState } from "react";
 import validation from "../SignUp/validation";
 import { useDispatch } from "react-redux";
-import register from "../../../api/register";
 import { setLoggedIn } from "../../../store/slices/authSlice";
+import authRequest from "../../../api/authRequest";
 
 const SignUp = () => {
   const [values, setValues] = useState({
@@ -38,7 +38,11 @@ const SignUp = () => {
     }
 
     try {
-      const result = await register(values.email, values.password);
+      const result = await authRequest(
+        "register",
+        values.email,
+        values.password,
+      );
       dispatch(setLoggedIn({ token: result.token }));
       navigate("/users");
     } catch (err) {

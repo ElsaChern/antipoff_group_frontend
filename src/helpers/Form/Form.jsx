@@ -14,7 +14,6 @@ const FormComponent = ({
   formtitle,
   onSubmit,
   btnText,
-  btnIsValid,
   nav,
 }) => {
   return (
