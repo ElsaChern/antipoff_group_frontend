@@ -3,7 +3,7 @@
 ## Project Pitch
 
 Website that displays a list of user cards on the main page and clicks on each card to open a page with detailed information about the user.
-The file with the test task can be found here `https://docs.google.com/document/d/1Zv2tPpmfqaDfx9-E2Z3M8CVuAaWajOkEPQ_o2oz4ATQ/edit`
+The file with the test task can be found here https://docs.google.com/document/d/1Zv2tPpmfqaDfx9-E2Z3M8CVuAaWajOkEPQ_o2oz4ATQ/edit
 
 ## Product Features
 
